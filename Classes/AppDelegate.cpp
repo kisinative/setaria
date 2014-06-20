@@ -7,7 +7,7 @@ AppDelegate::AppDelegate() {
 
 }
 
-AppDelegate::~AppDelegate() 
+AppDelegate::~AppDelegate()
 {
 }
 
@@ -31,6 +31,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // run
     director->runWithScene(scene);
+
+//    Director* pDirector = Director::sharedDirector();
+//    EGLView* pEGLView = EGLView::sharedOpenGLView();
+//    pDirector->setOpenGLView(pEGLView);
+//    pEGLView->setDesignResolutionSize(540, 960, kResolutionShowAll);
 
     return true;
 }

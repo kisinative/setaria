@@ -6,7 +6,7 @@ Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
+
     // 'layer' is an autorelease object
     auto layer = HelloWorld::create();
 
@@ -26,9 +26,9 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
+
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -39,7 +39,7 @@ bool HelloWorld::init()
                                            "CloseNormal.png",
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
+
 	closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
@@ -53,9 +53,9 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
+
     auto label = LabelTTF::create("Hello World", "Arial", 24);
-    
+
     // position the label on the center of the screen
     label->setPosition(Point(origin.x + visibleSize.width/2,
                             origin.y + visibleSize.height - label->getContentSize().height));
@@ -71,10 +71,57 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    
+
+
+
+
+    auto dispatcher = Director::getInstance()->getEventDispatcher();
+        auto listener = EventListenerTouchAllAtOnce::create();
+
+        listener->onTouchesBegan = CC_CALLBACK_2(HelloWorld::onTouchesBegan, this);
+//        listener->onTouchesMoved = CC_CALLBACK_2(HelloWorld::onTouchesMoved, this);
+//        listener->onTouchesCancelled = CC_CALLBACK_2(HelloWorld::onTouchesCancelled, this);
+//        listener->onTouchesEnded = CC_CALLBACK_2(HelloWorld::onTouchesEnded, this);
+
+        dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+
+//    //イベントリスナー作成
+//     auto listener = EventListenerTouchAllAtOnce::create();
+//
+//     //タッチ開始時
+//     listener->onTouchesBegan = [](const std::vector<Touch*>& touches, Event *event ) {
+//         //イテレータ用意
+//         std::vector::const_iterator it = touches.begin();
+//         //ループですべてのタッチを処理
+//         while (it != touches.end()) {
+//             Touch* touch = (Touch*)(*it);
+//             auto location = touch->getLocation();
+//             CCLOG("x:%f y:%f", location.x, location.y);
+//             it++;
+//         }
+//     };
+//     //優先度100でディスパッチャーに登録
+//     this->getEventDispatcher()->addEventListenerWithFixedPriority(listener, 100);
+
+
+
+
+
     return true;
 }
+void HelloWorld::onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *pEvent)
+{
+	         auto it = touches.begin();
+	         //ループですべてのタッチを処理
+	         while (it != touches.end()) {
+	             Touch* touch = (Touch*)(*it);
+	             auto location = touch->getLocation();
+	             CCLOG("x:%f y:%f", location.x, location.y);
+	             it++;
+	         }
 
+}
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
